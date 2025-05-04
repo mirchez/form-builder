@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { SignInButton, SignedOut, SignedIn } from "@clerk/nextjs";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -8,17 +7,19 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
      <header className="bg-white border-b border-gray-200 py-4">
       <div className="container mx-auto p-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold "> <Link href="/">Form Builder</Link></h1>
-          <div className="flex items-center gap-4">
-            <SignedOut>
-              <SignInButton ><Button>Sign In</Button></SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <Button asChild>
-                <Link href="/dashboard">Dashboard</Link>
-              </Button>
-            </SignedIn> 
-          </div>
+        <h1 className="text-2xl font-bold "> 
+          <Link href="/">Form Builder</Link>
+        </h1>
+        <div className="flex items-center gap-4">
+          <SignedOut>
+            <SignInButton ><Button>Sign In</Button></SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <Button asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
+          </SignedIn> 
+        </div>
       </div>
      </header>
      <main className="bg-blue-50 flex-1">
