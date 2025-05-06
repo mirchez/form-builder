@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/ui/button";
 import Link from "next/link";
+import { Mails, BookPlus, Eye } from "lucide-react";
 
 /**
  * Dashboard page component that displays an overview of forms and responses
@@ -22,7 +23,8 @@ export default function Dashboard() {
         <div className={cardsClass}>
           <h2 className="text-xl font-medium">Your Forms</h2>
           <p className="text-3xl font-bold mt-2">4</p>
-          <Button className="mt-4" asChild>
+          <Button className="mt-4">
+            <Eye className="w-4 h-4" />
             <Link href="/dashboard/forms">View All Forms</Link>
           </Button>
         </div>
@@ -37,7 +39,8 @@ export default function Dashboard() {
           <p className="text-gray-500 font-bold mt-2">
             Start Building A New Form
           </p>
-          <Button className="mt-4" asChild>
+          <Button className="mt-4">
+            <BookPlus className="w-4 h-4" />
             <Link href="/dashboard/forms/create">Create Form</Link>
           </Button>
         </div>
@@ -47,17 +50,20 @@ export default function Dashboard() {
       <div className={cardsClass}>
         <h2 className="text-xl font-medium mb-2">Recent Form</h2>
         <div className="space-y-4">
+          {/* Form card - displays form title, stats and action buttons */}
           <div className="flex items-center justify-between border-b pb-4 ">
             <div>
               <h3 className="font-medium">This is the title</h3>
               <p>responses . Created on 21 April 2025</p>
             </div>
             <div className="flex gap-2">
-              <Button asChild>
+              <Button>
+                <Eye className="w-4 h-4" />
                 <Link href={`/dashboard/forms/123`}>View</Link>
               </Button>
-              <Button asChild>
-                <Link href={`/dashboard/forms/123`}>Responses</Link>
+              <Button>
+                <Mails className="w-4 h-4" />
+                <Link href={`/dashboard/forms/123/responses`}>Responses</Link>
               </Button>
             </div>
           </div>

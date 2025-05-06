@@ -1,5 +1,6 @@
-import Header from "@/components/layout/header";
+import Header from "@/app/components/layout/header";
 import { auth } from "@clerk/nextjs/server";
+import { Toaster } from "@/app/components/ui/sonner";
 
 export default async function DashboardLayout({
   children,
@@ -12,7 +13,10 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 container mx-auto p-4">{children}</main>
+      <main className="flex-1 container mx-auto p-4">
+        {children}
+        <Toaster richColors />
+      </main>
     </div>
   );
 }
