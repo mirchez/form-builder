@@ -1,15 +1,14 @@
 "use client";
 
 import { Label } from "@radix-ui/react-label";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { Plus, Minus } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
-import { Form, State } from "@/types/types";
-import { useActionState } from "react";
+import { Form } from "@/types/types";
 import { createForm } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
 
@@ -18,7 +17,7 @@ const initialValue: Form = {
   description: "",
   questions: [
     {
-      id: uuidv4(),
+      id: "1",
       text: "",
     },
   ],
@@ -27,11 +26,7 @@ const initialValue: Form = {
 export const FormBuilder = () => {
   const router = useRouter();
   const [form, setForm] = useState<Form>(initialValue);
-  const initialState: State = { errors: {}, message: null };
-  const [state, formAction, isPending] = useActionState(
-    createForm,
-    initialState
-  );
+  const [isPending, setIsPending] = useState(false);
 
   const addQuestion = () => {
     setForm((prev) => ({
@@ -57,8 +52,36 @@ export const FormBuilder = () => {
     }));
   };
 
+  const onHandleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    //validate form
+    if (!form.title) {
+      toast.error("Title is required");
+      return;
+    }
+
+    //validate questions
+    const isQuestionEmpty = form.questions.some(
+      (question) => !question.text.trim()
+    );
+    if (isQuestionEmpty) {
+      toast.error("Please fill all the questions fields");
+      return;
+    }
+
+    try {
+      setIsPending(true);
+      //imitate api call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    } catch (error) {
+    } finally {
+      setIsPending(false);
+    }
+  };
+
   return (
-    <form className="space-y-8" action={formAction}>
+    <form className="space-y-8" onSubmit={onHandleSubmit}>
       <div className="space-y-4">
         {/* Title and Description */}
         <div>
