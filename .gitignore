@@ -42,3 +42,11 @@ next-env.d.ts
 
 # clerk configuration (can include secrets)
 /.clerk/
+
+# prisma
+generated/prisma
+prisma/dev.db
+prisma/dev.db-journal
+prisma/dev.db-trace.json
+prisma/dev.db-trace.json-journal
+prisma/dev.db-trace.json-journal-journal

@@ -1,12 +1,15 @@
 import { Button } from "@/app/components/ui/button";
 import Link from "next/link";
 import { Mails, BookPlus, Eye } from "lucide-react";
+import prisma from "../lib/db";
 
 /**
  * Dashboard page component that displays an overview of forms and responses
  * Contains summary cards and recent form information
  */
-export default function Dashboard() {
+export default async function Dashboard() {
+  const users = await prisma.user.findMany();
+  console.log(users);
   const cardsClass: string = "bg-white rounded-lg p-6 border shadow";
 
   return (
