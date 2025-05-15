@@ -72,6 +72,8 @@ export default async function Dashboard() {
           </div>
         </div>
       </div>
+
+      <h2>{JSON.stringify(users)}</h2>
     </div>
   );
 }
