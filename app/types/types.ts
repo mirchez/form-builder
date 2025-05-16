@@ -4,10 +4,13 @@ export type Questions = {
 };
 
 export type Form = {
+  id?: string;
   title: string;
   description: string;
   questions: Questions[];
 };
+
+//TODO: create a form for db response
 
 export type State = {
   errors?: {

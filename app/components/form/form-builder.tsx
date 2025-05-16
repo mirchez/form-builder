@@ -9,7 +9,6 @@ import { Plus, Minus } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
 import { Form } from "@/types/types";
-import { createForm } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
 
 const initialValue: Form = {
@@ -72,9 +71,30 @@ export const FormBuilder = () => {
 
     try {
       setIsPending(true);
-      //imitate api call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const response = await fetch("/api/forms", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        throw new Error(error);
+      }
+
+      const data: Form = await response.json();
+      toast.success("Form created!", {
+        description:
+          "Your forms has been save. You can now share your form with others",
+      });
+      router.push(`/dashboard/forms/${data.id}`);
+      router.refresh();
     } catch (error) {
+      console.log("Error creating form:", error);
+      toast.error("Ups! Something went wrong, please try again");
     } finally {
       setIsPending(false);
     }
