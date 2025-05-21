@@ -8,8 +8,6 @@ import prisma from "../lib/db";
  * Contains summary cards and recent form information
  */
 export default async function Dashboard() {
-  const users = await prisma.user.findMany();
-  console.log(users);
   const cardsClass: string = "bg-white rounded-lg p-6 border shadow";
 
   return (
@@ -72,8 +70,6 @@ export default async function Dashboard() {
           </div>
         </div>
       </div>
-
-      <h2>{JSON.stringify(users)}</h2>
     </div>
   );
 }
