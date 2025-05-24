@@ -1,4 +1,4 @@
-import prisma from "@/app/lib/db";
+import prisma from "@/lib/db";
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
 import { NextRequest } from "next/server";
 

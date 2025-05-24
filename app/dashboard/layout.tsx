@@ -1,6 +1,6 @@
-import Header from "@/app/components/layout/header";
+import Header from "@/components/layout/header";
 import { auth } from "@clerk/nextjs/server";
-import { Toaster } from "@/app/components/ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 export default async function DashboardLayout({
   children,

@@ -1,28 +1,17 @@
 export type Questions = {
   id: string;
   text: string;
+  order: number;
 };
 
 export type Form = {
   id?: string;
   title: string;
-  description: string;
+  description?: string;
   questions: Questions[];
 };
 
 //TODO: create a form for db response
-
-export type State = {
-  errors?: {
-    title?: string[];
-    description?: string[];
-    questions?: {
-      id?: string[];
-      text?: string[];
-    }[];
-  };
-  message?: string | null;
-};
 
 export type FormProps = {
   id: string;
@@ -33,6 +22,7 @@ export type FormProps = {
     responses: number;
   };
 };
+
 export type FormListProps = {
   forms: FormProps[];
 };

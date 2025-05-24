@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
-import prisma from "../../lib/db";
-import FormList from "../../components/form/form-list";
+import prisma from "@/lib/db";
+import FormList from "@/components/form/form-list";
 
 export default async function FormPage() {
   const { userId, redirectToSignIn } = await auth();

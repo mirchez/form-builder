@@ -1,5 +1,5 @@
-import { Button } from "@/app/components/ui/button";
-import prisma from "@/app/lib/db";
+import { Button } from "@/components/ui/button";
+import prisma from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -9,9 +9,13 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from "@/app/components/ui/card";
+} from "@/components/ui/card";
 
-const page = async ({ params }: { params: Promise<{ formId: string }> }) => {
+const FormDetailsPage = async ({
+  params,
+}: {
+  params: Promise<{ formId: string }>;
+}) => {
   const { formId } = await params;
   const { userId, redirectToSignIn } = await auth();
   if (!userId) {
@@ -20,7 +24,7 @@ const page = async ({ params }: { params: Promise<{ formId: string }> }) => {
 
   const formUrl: string = `${
     process.env.NEXT_PUBLIC_APP_URL || ""
-  }/form/${formId}`;
+  }/forms/${formId}`;
 
   const form = await prisma.form.findUnique({
     where: {
@@ -33,7 +37,7 @@ const page = async ({ params }: { params: Promise<{ formId: string }> }) => {
         },
       },
       _count: {
-        //agragation function, see more on prisma docs
+        //aggregation function, see more on prisma docs
         select: {
           responses: true,
         },
@@ -95,4 +99,4 @@ const page = async ({ params }: { params: Promise<{ formId: string }> }) => {
   );
 };
 
-export default page;
+export default FormDetailsPage;

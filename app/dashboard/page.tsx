@@ -1,7 +1,6 @@
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Mails, BookPlus, Eye } from "lucide-react";
-import prisma from "../lib/db";
 
 /**
  * Dashboard page component that displays an overview of forms and responses

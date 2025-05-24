@@ -3,17 +3,15 @@
 import { FormListProps } from "@/app/types/types";
 import { Input } from "../ui/input";
 import { useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import FormCard from "./form-card";
 
 const FormList = ({ forms }: FormListProps) => {
   const [searchValue, setSearchValue] = useState<string>("");
-  const handleSearchChange = useDebouncedCallback((term) => {
-    console.log("works");
-    setSearchValue(term);
-  }, 300);
+  const filteredForms = forms.filter((form) =>
+    form.title.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <div>
@@ -22,7 +20,7 @@ const FormList = ({ forms }: FormListProps) => {
           type="text"
           placeholder="Search Forms"
           value={searchValue}
-          onChange={(e) => handleSearchChange(e.target.value)}
+          onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
         />
         <Button asChild>
@@ -30,7 +28,7 @@ const FormList = ({ forms }: FormListProps) => {
         </Button>
       </div>
 
-      {forms.length === 0 ? (
+      {filteredForms.length === 0 ? (
         <div className="text-center py-8">
           <p className="text-gray-500 font-medium">
             No forms found. Create a new form to get started
@@ -38,7 +36,7 @@ const FormList = ({ forms }: FormListProps) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {forms.map((form) => (
+          {filteredForms.map((form) => (
             <FormCard
               key={form.id}
               id={form.id}
