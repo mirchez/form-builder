@@ -12,22 +12,36 @@ import { Form } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useFormValidation } from "@/hooks/use-form-validation";
 import { FormSchema } from "@/utils/validations/form";
+import { Checkbox } from "@/components/ui/checkbox";
+import type { Questions } from "@/types/types";
 
-const initialValue: Form = {
-  title: "",
-  description: "",
-  questions: [
-    {
-      id: "1",
-      text: "",
-      order: 0,
-    },
-  ],
+type FormBuilderProps = {
+  initialData: {
+    id?: string;
+    title: string;
+    description?: string | null;
+    questions: Questions[];
+  };
+  isEditing?: boolean;
 };
 
-export const FormBuilder = () => {
+export const FormBuilder = ({
+  initialData,
+  isEditing = false,
+}: FormBuilderProps) => {
   const router = useRouter();
-  const [form, setForm] = useState<Form>(initialValue);
+  const [form, setForm] = useState<Form>({
+    title: initialData?.title || "",
+    description: initialData?.description ?? "",
+    questions: initialData?.questions || [
+      {
+        id: "1",
+        text: "",
+        order: 1,
+      },
+    ],
+  });
+
   const [isPending, setIsPending] = useState(false);
   const { errors, validateForm } = useFormValidation();
 
@@ -42,7 +56,7 @@ export const FormBuilder = () => {
           text: "",
           type: "text",
           required: false,
-          order: prev.questions.length,
+          order: prev.questions.length + 1,
         },
       ],
     }));
@@ -76,9 +90,14 @@ export const FormBuilder = () => {
 
     try {
       setIsPending(true);
+      const url: string = isEditing
+        ? `/api/forms/${initialData?.id}`
+        : "/api/forms";
 
-      const response = await fetch("/api/forms", {
-        method: "POST",
+      const method: string = isEditing ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
         headers: {
           "content-type": "application/json",
         },
@@ -91,7 +110,7 @@ export const FormBuilder = () => {
       }
 
       const data: Form = await response.json();
-      toast.success("Form created!", {
+      toast.success(isEditing ? "Form Updated" : "Form created!", {
         description:
           "Your form has been saved. You can now share your form with others",
       });
@@ -186,6 +205,12 @@ export const FormBuilder = () => {
                   errors[`questions.${idx}.text`] ? "border-red-500" : ""
                 }`}
               />
+              <div className="flex items-center gap-1 justify-end">
+                <Checkbox />
+                <p className="text-gray-500">
+                  Make it a yes or no question (still in process)
+                </p>
+              </div>
               {errors[`questions.${idx}.text`] && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors[`questions.${idx}.text`][0]}
@@ -206,7 +231,13 @@ export const FormBuilder = () => {
             Cancel
           </Button>
           <Button type="submit" disabled={isPending}>
-            {isPending ? "Creating..." : "Create Form"}
+            {isEditing
+              ? isPending
+                ? "Updating..."
+                : "Update"
+              : isPending
+              ? "Creating..."
+              : "Create"}
           </Button>
         </div>
       ) : (

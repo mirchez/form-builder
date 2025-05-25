@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -8,6 +8,7 @@ import {
   CardDescription,
   CardFooter,
 } from "../ui/card";
+import DeleteFormButton from "@/components/form/delete-form-button";
 
 type FormCardProps = {
   id: string;
@@ -35,22 +36,20 @@ const FormCard = ({
           </CardDescription>
         )}
       </CardHeader>
-      <CardContent className="flex-1">
+      <CardContent className="flex-1 ">
         <p className="text-sm text-gray-500">{responsesCount} responses</p>
         <p className="text-sm text-gray-500">Created: {formattedDate}</p>
       </CardContent>
-      <CardFooter className="flex justify-between gap-2">
-        <Button asChild variant="outline" className="flex-1">
+      <CardFooter className="flex-col xl:flex-row justify-between gap-2">
+        <Button asChild variant="outline" className="flex-1 w-full">
           <Link href={`/dashboard/forms/${id}`}>View Form</Link>
         </Button>
 
-        <Button asChild className="flex-1">
+        <Button asChild className="flex-1 w-full">
           <Link href={`/dashboard/forms/${id}/responses`}>Responses</Link>
         </Button>
 
-        <Button className="flex-1" variant="destructive">
-          Delete
-        </Button>
+        <DeleteFormButton formId={id} />
       </CardFooter>
     </Card>
   );

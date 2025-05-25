@@ -1,16 +1,18 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
+import { Form } from "@/types/types";
 
 //create a form api
 export async function POST(req: NextRequest) {
+  console.log("WOOOOOOOOOOOOOORK");
   try {
     const { userId } = await auth();
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { title, description, questions } = await req.json();
+    const { title, description, questions }: Form = await req.json();
 
     //validation
     if (!title || !questions || questions.length === 0) {
@@ -26,9 +28,9 @@ export async function POST(req: NextRequest) {
         description,
         userId,
         questions: {
-          create: questions.map((q: { text: string }, idx: number) => ({
+          create: questions.map((q: { text: string; order: number }, i) => ({
             text: q.text,
-            order: idx,
+            order: q.order,
           })),
         },
       },

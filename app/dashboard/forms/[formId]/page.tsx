@@ -10,6 +10,7 @@ import {
   CardTitle,
   CardContent,
 } from "@/components/ui/card";
+import { DialogCloseButton } from "@/components/form/share-form-link";
 
 const FormDetailsPage = async ({
   params,
@@ -77,7 +78,10 @@ const FormDetailsPage = async ({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="p-2 border rounded-md bg-gray-50">{formUrl}</p>
+          <div className="flex bg-gray-50 items-center justify-between p-2">
+            <p className="truncate">{formUrl}</p>
+            <DialogCloseButton link={formUrl} />
+          </div>
         </CardContent>
       </Card>
 

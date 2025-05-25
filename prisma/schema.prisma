@@ -16,7 +16,6 @@ model User {
   email         String         @unique
   name          String?
   forms         Form[]
-  formResponses FormResponse[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
@@ -28,7 +27,7 @@ model Form {
   questions   Question[]
   responses   FormResponse[]
   userId      String
-  user        User           @relation(fields: [userId], references: [id])
+  user        User           @relation(fields: [userId], references: [id] , onDelete: Cascade)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 }
@@ -37,7 +36,7 @@ model Question {
   id        String   @id @default(cuid())
   text      String
   formId    String
-  form      Form     @relation(fields: [formId], references: [id])
+  form      Form     @relation(fields: [formId], references: [id] , onDelete: Cascade)
   answers   Answer[]
   order     Int
   createdAt DateTime @default(now())
@@ -47,10 +46,8 @@ model Question {
 model FormResponse {
   id              String   @id @default(cuid())
   formId          String
-  form            Form     @relation(fields: [formId], references: [id])
+  form            Form     @relation(fields: [formId], references: [id] , onDelete: Cascade)
   answers         Answer[]
-  userId          String
-  user            User     @relation(fields: [userId], references: [id])
   respondentEmail String?
   respondentName  String?
   createdAt       DateTime @default(now())
@@ -60,10 +57,10 @@ model FormResponse {
 model Answer {
   id           String        @id @default(cuid())
   text         String
-  questionId   String?
-  question     Question?     @relation(fields: [questionId], references: [id])
+  questionId   String
+  question     Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
   responseId   String?
-  formResponse FormResponse? @relation(fields: [responseId], references: [id])
+  formResponse FormResponse? @relation(fields: [responseId], references: [id] , onDelete: Cascade)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { UserButton } from "@clerk/nextjs";
+
 export default function Header() {
   return (
     <header className="bg-background border-b">
