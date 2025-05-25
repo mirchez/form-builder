@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
         description,
         userId,
         questions: {
-          create: questions.map((q: { text: string; order: number }, i) => ({
+          create: questions.map((q: { text: string; order: number }) => ({
             text: q.text,
             order: q.order,
           })),
