@@ -16,7 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import type { Questions } from "@/types/types";
 
 type FormBuilderProps = {
-  initialData: {
+  initialData?: {
     id?: string;
     title: string;
     description?: string | null;
