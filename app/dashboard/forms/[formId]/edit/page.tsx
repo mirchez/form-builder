@@ -1,6 +1,5 @@
 import { FormBuilder } from "@/components/form/form-builder";
 import prisma from "@/lib/db";
-import { RedirectToSignIn } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -10,10 +9,10 @@ export default async function EditFormPage({
   params: Promise<{ formId: string }>;
 }) {
   const { formId } = await params;
-  const { userId } = await auth();
+  const { userId, redirectToSignIn } = await auth();
 
   if (!userId) {
-    return RedirectToSignIn;
+    return redirectToSignIn();
   }
 
   const form = await prisma.form.findUnique({

@@ -106,6 +106,12 @@ export async function PUT(
       },
     });
 
+    await prisma.formResponse.deleteMany({
+      where: {
+        formId,
+      },
+    });
+
     await prisma.question.createMany({
       data: questions.map((q: Questions) => ({
         text: q.text,

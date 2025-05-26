@@ -45,8 +45,6 @@ export default async function Dashboard() {
     },
   });
 
-  console.log(user);
-
   return (
     <div className="space-y-6">
       {/* Header section with welcome message */}

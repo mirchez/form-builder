@@ -5,7 +5,6 @@ import { Form } from "@/types/types";
 
 //create a form api
 export async function POST(req: NextRequest) {
-  console.log("WOOOOOOOOOOOOOORK");
   try {
     const { userId } = await auth();
     if (!userId) {

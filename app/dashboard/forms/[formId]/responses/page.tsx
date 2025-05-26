@@ -41,13 +41,17 @@ export default async function FormResponsesPage({
     redirect("/dashboard/forms");
   }
 
+  console.log({ form });
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Responses</h1>
           <p>
-            {form.title} - {form.responses.length}
+            {form.title} -{" "}
+            {form.responses.length === 0
+              ? "No responses yet"
+              : `${form.responses.length} Responses`}
           </p>
         </div>
         <Button asChild variant="outline">
