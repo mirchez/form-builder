@@ -22,6 +22,7 @@ export function DialogCloseButton({ link }: { link: string }) {
       await navigator.clipboard.writeText(link);
       toast.success("Link copied to clipboard!");
     } catch (err) {
+      console.log(err);
       toast.error("Failed to copy link");
     }
   };

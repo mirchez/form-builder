@@ -22,7 +22,7 @@ const FormList = ({ forms }: FormListProps) => {
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
         />
-        <Button asChild>analytics</Button>
+        {/* <Button>analytics</Button> */}
       </div>
 
       {filteredForms.length === 0 ? (

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Mails, BookPlus, Eye } from "lucide-react";
 import prisma from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
+import { IaFormBuilder } from "@/components/layout/IaFormBuilder";
 
 /**
  * Dashboard page component that displays an overview of forms and responses
@@ -12,7 +13,8 @@ export default async function Dashboard() {
   const { userId, redirectToSignIn } = await auth();
   if (!userId) return redirectToSignIn();
 
-  const cardsClass: string = "bg-white rounded-lg p-6 border shadow";
+  const cardsClass: string =
+    "bg-white rounded-lg p-6 border shadow hover:shadow-lg transition-hover duration-300 hover:-translate-y-1";
   const formsCount = await prisma.form.count({
     where: {
       userId,
@@ -114,6 +116,8 @@ export default async function Dashboard() {
           <p>You have not created any forms yet. Start creating one!</p>
         )}
       </div>
+
+      <IaFormBuilder />
     </div>
   );
 }
