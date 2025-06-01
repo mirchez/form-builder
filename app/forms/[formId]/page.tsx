@@ -24,9 +24,11 @@ export default async function PublicFormPage({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="container max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
-        <FormPreview form={form} />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 transition-colors duration-500 py-12">
+      <div className="container max-w-3xl mx-auto">
+        <div className="bg-white/70 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl">
+          <FormPreview form={form} />
+        </div>
       </div>
     </div>
   );

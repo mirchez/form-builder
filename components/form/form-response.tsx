@@ -52,7 +52,7 @@ export default function FormResponse({ response }: ResponseProps) {
               <h3 className="font-medium">
                 {a.question.order}. {a.question.text}
               </h3>
-              <p className="mt-1 whitespace-pre-wrap bg-gray-100 p-2 rounded">
+              <p className="mt-1 whitespace-pre-wrap bg-gray-100 p-2 rounded text-black">
                 {a.text}
               </p>
             </div>
