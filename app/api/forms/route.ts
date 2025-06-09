@@ -1,16 +1,11 @@
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { Form } from "@/types/types";
+import { v4 as uuidv4 } from "uuid";
 
 //create a form api
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await auth();
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     const { title, description, questions }: Form = await req.json();
 
     //validation
@@ -19,6 +14,9 @@ export async function POST(req: NextRequest) {
         status: 400,
       });
     }
+
+    // Generate a unique ID for the user
+    const userId = uuidv4();
 
     //save form in the database
     const form = await prisma.form.create({

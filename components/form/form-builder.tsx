@@ -13,33 +13,26 @@ import { useRouter } from "next/navigation";
 import { useFormValidation } from "@/hooks/use-form-validation";
 import { FormSchema } from "@/utils/validations/form";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { Questions } from "@/types/types";
 
-type FormBuilderProps = {
-  initialData?: {
-    id?: string;
+interface FormBuilderProps {
+  form: {
+    id: string;
     title: string;
-    description?: string | null;
-    questions: Questions[];
+    description: string | null;
+    questions: {
+      id: string;
+      text: string;
+      order: number;
+    }[];
   };
-  isEditing?: boolean;
-};
+}
 
-export const FormBuilder = ({
-  initialData,
-  isEditing = false,
-}: FormBuilderProps) => {
+export function FormBuilder({ form }: FormBuilderProps) {
   const router = useRouter();
-  const [form, setForm] = useState<Form>({
-    title: initialData?.title || "",
-    description: initialData?.description ?? "",
-    questions: initialData?.questions || [
-      {
-        id: "1",
-        text: "",
-        order: 1,
-      },
-    ],
+  const [formState, setFormState] = useState<Form>({
+    title: form.title,
+    description: form.description ?? "",
+    questions: form.questions,
   });
 
   const [isPending, setIsPending] = useState(false);
@@ -47,7 +40,7 @@ export const FormBuilder = ({
 
   //add hooks for logic
   const addQuestion = () => {
-    setForm((prev) => ({
+    setFormState((prev) => ({
       ...prev,
       questions: [
         ...prev.questions,
@@ -63,17 +56,17 @@ export const FormBuilder = ({
   };
 
   const removeQuestion = (idx: number) => {
-    const newQuestions = form.questions.filter((_, i) => i !== idx);
-    setForm((prev) => ({
+    const newQuestions = formState.questions.filter((_, i) => i !== idx);
+    setFormState((prev) => ({
       ...prev,
       questions: newQuestions,
     }));
   };
 
   const handleQuestionChange = (idx: number, newText: string) => {
-    const updatedQuestions = [...form.questions];
+    const updatedQuestions = [...formState.questions];
     updatedQuestions[idx].text = newText;
-    setForm((prev) => ({
+    setFormState((prev) => ({
       ...prev,
       questions: updatedQuestions,
     }));
@@ -83,25 +76,23 @@ export const FormBuilder = ({
     e.preventDefault();
 
     // Validate form using Zod
-    if (!validateForm(form as FormSchema)) {
+    if (!validateForm(formState as FormSchema)) {
       toast.error("Form is not valid, please review your form");
       return;
     }
 
     try {
       setIsPending(true);
-      const url: string = isEditing
-        ? `/api/forms/${initialData?.id}`
-        : "/api/forms";
+      const url: string = `/api/forms/${form.id}`;
 
-      const method: string = isEditing ? "PUT" : "POST";
+      const method: string = "PUT";
 
       const response = await fetch(url, {
         method,
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(formState),
       });
 
       if (!response.ok) {
@@ -110,7 +101,7 @@ export const FormBuilder = ({
       }
 
       const data: Form = await response.json();
-      toast.success(isEditing ? "Form Updated" : "Form created!", {
+      toast.success("Form Updated", {
         description:
           "Your form has been saved. You can now share your form with others",
       });
@@ -133,8 +124,10 @@ export const FormBuilder = ({
           <Input
             required
             id="title"
-            value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            value={formState.title}
+            onChange={(e) =>
+              setFormState({ ...formState, title: e.target.value })
+            }
             placeholder="Enter title"
             className={`mt-1 ${errors["title"] ? "border-red-500" : ""}`}
           />
@@ -147,8 +140,10 @@ export const FormBuilder = ({
           <Label htmlFor="description">Description (optional)</Label>
           <Textarea
             id="description"
-            value={form.description}
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
+            value={formState.description}
+            onChange={(e) =>
+              setFormState({ ...formState, description: e.target.value })
+            }
             placeholder="Enter Form Description"
             className={`mt-1 resize-none ${
               errors["description"] ? "border-red-500" : ""
@@ -177,8 +172,8 @@ export const FormBuilder = ({
         </div>
 
         {/* Questions */}
-        {form.questions.length > 0 &&
-          form.questions.map((question, idx) => (
+        {formState.questions.length > 0 &&
+          formState.questions.map((question, idx) => (
             <div key={question.id} className="space-y-2 p-4 border rounded-md">
               <div className="flex items-center justify-between">
                 <Label htmlFor={`question-${idx + 1}`}>
@@ -220,7 +215,7 @@ export const FormBuilder = ({
           ))}
       </div>
 
-      {form.questions.length > 0 ? (
+      {formState.questions.length > 0 ? (
         <div className="flex justify-end gap-2">
           <Button
             type="button"
@@ -231,13 +226,7 @@ export const FormBuilder = ({
             Cancel
           </Button>
           <Button type="submit" disabled={isPending}>
-            {isEditing
-              ? isPending
-                ? "Updating..."
-                : "Update"
-              : isPending
-              ? "Creating..."
-              : "Create"}
+            {isPending ? "Updating..." : "Update"}
           </Button>
         </div>
       ) : (
@@ -254,4 +243,4 @@ export const FormBuilder = ({
       )}
     </form>
   );
-};
+}

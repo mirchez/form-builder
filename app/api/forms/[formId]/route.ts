@@ -1,5 +1,4 @@
 import prisma from "@/lib/db";
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { Form, Questions } from "@/types/types";
 
@@ -8,17 +7,7 @@ export async function DELETE(
   { params }: { params: Promise<{ formId: string }> }
 ) {
   try {
-    const { userId } = await auth();
     const { formId } = await params;
-
-    if (!userId) {
-      return new NextResponse(
-        "Error with authentication, please login again.",
-        {
-          status: 401,
-        }
-      );
-    }
 
     const form = await prisma.form.findUnique({
       where: {
@@ -28,10 +17,6 @@ export async function DELETE(
 
     if (!form) {
       return new NextResponse("Form not found", { status: 404 });
-    }
-
-    if (form.userId !== userId) {
-      return new NextResponse("Forbidden", { status: 403 });
     }
 
     await prisma.form.delete({
@@ -52,17 +37,7 @@ export async function PUT(
   { params }: { params: Promise<{ formId: string }> }
 ) {
   try {
-    const { userId } = await auth();
     const { formId } = await params;
-
-    if (!userId) {
-      return new NextResponse(
-        "Error with authentication, please login again.",
-        {
-          status: 401,
-        }
-      );
-    }
 
     const form = await prisma.form.findUnique({
       where: {
@@ -72,10 +47,6 @@ export async function PUT(
 
     if (!form) {
       return new NextResponse("Form not found", { status: 404 });
-    }
-
-    if (form.userId !== userId) {
-      return new NextResponse("Forbidden", { status: 403 });
     }
 
     const body = await req.json();

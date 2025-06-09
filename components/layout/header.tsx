@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { UserButton } from "@clerk/nextjs";
 
 export default function Header() {
   return (
@@ -30,7 +29,6 @@ export default function Header() {
           <Button asChild variant="outline">
             <Link href="/dashboard/forms/create">Create Form</Link>
           </Button>
-          <UserButton />
         </div>
       </div>
     </header>

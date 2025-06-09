@@ -1,5 +1,4 @@
 import Header from "@/components/layout/header";
-import { auth } from "@clerk/nextjs/server";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
 
@@ -8,9 +7,6 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { userId, redirectToSignIn } = await auth();
-  if (!userId) return redirectToSignIn();
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
