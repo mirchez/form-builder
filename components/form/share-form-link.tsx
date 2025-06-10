@@ -16,10 +16,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export function DialogCloseButton({ link }: { link: string }) {
+export function DialogCloseButton({
+  formUrl,
+  children,
+}: {
+  formUrl: string;
+  children: React.ReactNode;
+}) {
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(link);
+      await navigator.clipboard.writeText(formUrl);
       toast.success("Link copied to clipboard!");
     } catch (err) {
       console.log(err);
@@ -44,7 +50,7 @@ export function DialogCloseButton({ link }: { link: string }) {
             <Label htmlFor="link" className="sr-only">
               Link
             </Label>
-            <Input id="link" defaultValue={link} readOnly />
+            <Input id="link" defaultValue={formUrl} readOnly />
           </div>
           <Button
             type="submit"
