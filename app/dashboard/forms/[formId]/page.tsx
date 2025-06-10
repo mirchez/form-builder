@@ -10,7 +10,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { DialogCloseButton } from "@/components/form/share-form-link";
-import { ArrowLeft, Edit, Eye, Share2, MessageSquare } from "lucide-react";
+import { ArrowLeft, Edit, Share2, MessageSquare } from "lucide-react";
 
 const FormDetailsPage = async ({
   params,

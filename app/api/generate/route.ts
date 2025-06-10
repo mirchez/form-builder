@@ -1,8 +1,6 @@
 // import { NextResponse } from "next/server";
 // // import { OpenAI } from "openai";
 
-const userId: string = "user_2yJmJm0tlXrXbuO7REU7s9coEiF";
-
 // // const openai = new OpenAI({
 // //   apiKey: process.env.OPENAI_API_KEY,
 // // });

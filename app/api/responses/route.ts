@@ -1,8 +1,6 @@
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-const userId: string = "user_2yJmJm0tlXrXbuO7REU7s9coEiF";
-
 export async function POST(req: NextRequest) {
   const { formId, answers, respondentName, respondentEmail } = await req.json();
   //check if form exist
