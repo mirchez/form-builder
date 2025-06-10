@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { Form } from "@/types/types";
-import { v4 as uuidv4 } from "uuid";
 
 //create a form api
 export async function POST(req: NextRequest) {
@@ -13,11 +12,10 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Invalid form data, Please review your form", {
         status: 400,
       });
-      X;
     }
 
     // Generate a unique ID for the user
-    const userId = uuidv4();
+    const userId: string = "user_2yJmJm0tlXrXbuO7REU7s9coEiF";
 
     //save form in the database
     const form = await prisma.form.create({
