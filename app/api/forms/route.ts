@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Invalid form data, Please review your form", {
         status: 400,
       });
+      X;
     }
 
     // Generate a unique ID for the user
