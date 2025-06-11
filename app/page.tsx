@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { SignInButton, SignedOut, SignedIn } from "@clerk/nextjs";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { ArrowRight, Zap, Shield, BarChart3 } from "lucide-react";
@@ -14,21 +13,12 @@ export default function Home() {
           </h1>
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <SignedOut>
-              <SignInButton>
-                <Button className="rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500">
-                  Sign In
-                </Button>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <Button
-                asChild
-                className="rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
-              >
-                <Link href="/dashboard">Dashboard</Link>
-              </Button>
-            </SignedIn>
+            <Button
+              asChild
+              className="rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
+            >
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
           </div>
         </div>
       </header>
@@ -45,33 +35,27 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-              <SignedIn>
-                <Button
-                  asChild
-                  size="lg"
-                  className="rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-lg px-8 py-6 group"
+              <Button
+                asChild
+                size="lg"
+                className="rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-lg px-8 py-6 group"
+              >
+                <Link
+                  href="/dashboard/forms/create"
+                  className="flex items-center gap-2"
                 >
-                  <Link
-                    href="/dashboard/forms/create"
-                    className="flex items-center gap-2"
-                  >
-                    Create Form
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </Button>
-              </SignedIn>
+                  Create Form
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
 
-              <SignedOut>
-                <SignInButton>
-                  <Button
-                    size="lg"
-                    className="rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-lg px-8 py-6 group"
-                  >
-                    Get Started
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform ml-2" />
-                  </Button>
-                </SignInButton>
-              </SignedOut>
+              <Button
+                size="lg"
+                className="rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-lg px-8 py-6 group"
+              >
+                Get Started
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform ml-2" />
+              </Button>
             </div>
 
             {/* Features Grid */}

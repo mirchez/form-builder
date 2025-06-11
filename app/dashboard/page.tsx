@@ -2,17 +2,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Mails, BookPlus, Eye, Plus, BarChart3 } from "lucide-react";
 import prisma from "@/lib/db";
-import { auth } from "@clerk/nextjs/server";
 import { IaFormBuilder } from "@/components/layout/IaFormBuilder";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 /**
  * Dashboard page component that displays an overview of forms and responses
- * Contains summary cards and recent form information
  */
 export default async function Dashboard() {
-  const { userId, redirectToSignIn } = await auth();
-  if (!userId) return redirectToSignIn();
+  const userId: string = "user_2yJmJm0tlXrXbuO7REU7s9coEiF";
 
   const formsCount = await prisma.form.count({
     where: {
@@ -28,21 +25,25 @@ export default async function Dashboard() {
     },
   });
 
-  //get recent form
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
   const recentForm = await prisma.form.findFirst({
-    where: { userId },
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       _count: {
         select: {
           responses: true,
         },
       },
-    },
-  });
-
-  const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
     },
   });
 
