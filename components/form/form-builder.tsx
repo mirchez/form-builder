@@ -15,7 +15,7 @@ import { FormSchema } from "@/utils/validations/form";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface FormBuilderProps {
-  form: {
+  form?: {
     id: string;
     title: string;
     description: string | null;
@@ -30,9 +30,9 @@ interface FormBuilderProps {
 export function FormBuilder({ form }: FormBuilderProps) {
   const router = useRouter();
   const [formState, setFormState] = useState<Form>({
-    title: form.title,
-    description: form.description ?? "",
-    questions: form.questions,
+    title: form?.title ?? "",
+    description: form?.description ?? "",
+    questions: form?.questions ?? [],
   });
 
   const [isPending, setIsPending] = useState(false);
@@ -83,9 +83,8 @@ export function FormBuilder({ form }: FormBuilderProps) {
 
     try {
       setIsPending(true);
-      const url: string = `/api/forms/${form.id}`;
-
-      const method: string = "PUT";
+      const url: string = form?.id ? `/api/forms/${form.id}` : "/api/forms";
+      const method: string = form?.id ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method,
@@ -101,7 +100,7 @@ export function FormBuilder({ form }: FormBuilderProps) {
       }
 
       const data: Form = await response.json();
-      toast.success("Form Updated", {
+      toast.success(form?.id ? "Form Updated" : "Form Created", {
         description:
           "Your form has been saved. You can now share your form with others",
       });
